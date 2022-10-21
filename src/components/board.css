@@ -11,7 +11,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.cell.given {
     font-size: xxx-large;
+}
+
+.cell.solution-mark {
+    font-size: xxx-large;
+    color: blue;
 }
 
 .cell:first-child {

@@ -5,13 +5,27 @@ import './board.css'
 
 function Given(props) {
     const { cell: { given }, className='', ...rest} = props;
-    return <div {...rest} className={`given ${className}`}>{given}</div>
+    return <div {...rest} className={`given ${className}`} data-is-given>{given}</div>
+}
+
+function SolutionMark(props) {
+    const { cell: { solutionMark }, className='', ...rest} = props;
+    return <div {...rest} className={`solution-mark ${className}`} data-is-solution-mark={true}>{solutionMark}</div>
+}
+
+function PencilMarks(props) {
+    const { cell: { pencilMarks }, className='', ...rest} = props;
+    return (
+        <div {...rest} className={`pencil-marked ${className}`} data-is-pencil-mark={true}>
+            {pencilMarks.map(pm => <span key={pm} className="pencil-mark-item">{pm}</span>)}
+        </div>
+    )
 }
 
 function Cell({row, col}) {
     const board = useSelector(state => state.board)
     const dispatch = useDispatch();
-    const { given } = board.cells[row][col];
+    const { given, solutionMark, pencilMarks } = board.cells[row][col];
     const { selected } = board;
     const handleClick = () => dispatch(setSelected({ row, col }))
     const isSelected = Boolean(selected && selected.row === row && selected.col === col);
@@ -19,12 +33,19 @@ function Cell({row, col}) {
         className: `cell ${isSelected ? 'selected' : ''}`,
         'data-testid': `cell-${row}-${col}`,
         'data-is-selected': isSelected,
+        cell: board.cells[row][col],
         onClick: handleClick
     }
     if (given) return (
-        <Given
-            cell={board.cells[row][col]}
-            {...props} />
+        <Given {...props} />
+    )
+
+    if(solutionMark) return (
+        <SolutionMark {...props} />
+    )
+
+    if(pencilMarks.length > 0) return (
+        <PencilMarks {...props} />
     )
     return <div {...props}>{''}</div>
 }

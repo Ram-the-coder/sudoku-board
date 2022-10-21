@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import SudokuBoard from "./components/SudokuBoard";
 import { useDispatch, useSelector } from 'react-redux'
-import { handleKeyPress, setSelected } from "./reducers/boardSlice";
+import { clearSelectedCell, handleKeyPress, setSelected } from "./reducers/boardSlice";
+import Controls from "./components/Controls";
 
 function App() {
   const board = useSelector(state => state.board)
+  const editMode = useSelector(state => state.editMode)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,11 +23,7 @@ function App() {
       if(['s', 'arrowdown'].includes(key)) return moveTo({ row: row === 8 ? 0 : row+1, col })
     }
     function handleClear() {
-      const { selected, cells } = board;
-      if (!selected) return;
-      const { row, col } = selected;
-      const { given } = cells[row][col];
-      if (given) dispatch(handleKeyPress(given))
+      dispatch(clearSelectedCell())
     }
     function handleKeyDown(e) {
       const key = e.key.toLowerCase();
@@ -42,6 +40,7 @@ function App() {
   return (
     <div className="App">
       <SudokuBoard />
+      <Controls />
     </div>
   );
 }
