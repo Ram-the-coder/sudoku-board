@@ -1,0 +1,40 @@
+.board {
+    width: fit-content;
+    margin: 50px auto;
+}
+
+.cell {
+    width: 90px;
+    height: 90px;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.cell:first-child {
+    border-left: 4px solid black;
+}
+
+.row:first-child .cell {
+    border-top: 4px solid black;
+}
+
+.row:nth-child(3n) .cell {
+    border-bottom: 3px solid black;
+}
+
+.row:last-child .cell {
+    border-bottom: 4px solid black;
+}
+
+.cell:nth-child(3n) {
+    border-right: 3px solid black;
+}
+
+.cell:last-child {
+    border-right: 4px solid black;
+}
+
+.cell:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 255, 0.1);
+}
