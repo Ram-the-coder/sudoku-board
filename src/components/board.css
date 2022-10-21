@@ -8,6 +8,10 @@
     height: 90px;
     border-left: 1px solid black;
     border-top: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xxx-large;
 }
 
 .cell:first-child {
@@ -37,4 +41,8 @@
 .cell:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 255, 0.1);
+}
+
+.selected {
+    background-color: rgba(0, 0, 255, 0.2);
 }
