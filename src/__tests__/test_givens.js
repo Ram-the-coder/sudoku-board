@@ -42,11 +42,11 @@ describe('Givens', () => {
             expect(cell.textContent).toEqual('');
         })
     
-        it(`on pressing ${key} when no cells are selected, it should not delete the set given`, () => {
+        it(`on pressing ${key} when a different cell is selected, it should not delete the given in the original cell`, () => {
             let cell = screen.getByTestId('cell-0-0');
             fireEvent.click(cell)
             pressKey(document, '1')
-            cell = screen.getByTestId('cell-0-0');
+            cell = screen.getByTestId('cell-1-1');
             fireEvent.click(cell)
             pressKey(document, key)
             cell = screen.getByTestId('cell-0-0');

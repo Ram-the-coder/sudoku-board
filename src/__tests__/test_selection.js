@@ -12,14 +12,6 @@ describe('selection', () => {
             cell = screen.getByTestId('cell-0-0');
             expect(cell.dataset.isSelected).toEqual("true");
         })
-
-        it('should de-select the cell on clicking a selected cell', () => {
-            let cell = screen.getByTestId('cell-0-0');
-            fireEvent.click(cell)
-            fireEvent.click(cell)
-            cell = screen.getByTestId('cell-0-0');
-            expect(cell.dataset.isSelected).toEqual("false");
-        })
     })
     
 

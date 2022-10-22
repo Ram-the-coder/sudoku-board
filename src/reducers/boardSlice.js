@@ -27,10 +27,7 @@ export const boardSlice  = createSlice({
         setSelected: (state, { payload }) => {
             const { row, col } = payload;
             const currentSelected = state.selected;
-            if (currentSelected && currentSelected.row === row && currentSelected.col === col)
-                state.selected = null;
-            else
-                state.selected = { row, col };
+            state.selected = { row, col };
         },
         clearSelectedCell: (state, action) => {
             const currentSelected = state.selected;
