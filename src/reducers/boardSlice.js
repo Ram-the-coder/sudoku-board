@@ -21,19 +21,19 @@ export const boardSlice  = createSlice({
     initialState: {
         cells: intialCells,
         selected: null,
-        editMode: EDIT_MODE.GIVEN
+        editMode: EDIT_MODE.GIVEN,
+        isStarted: false,
     },
     reducers: {
         setSelected: (state, { payload }) => {
             const { row, col } = payload;
-            const currentSelected = state.selected;
             state.selected = { row, col };
         },
-        clearSelectedCell: (state, action) => {
+        clearSelectedCell: (state) => {
             const currentSelected = state.selected;
             if (!currentSelected) return;
             const { row, col } = currentSelected;
-            state.cells[row][col].given = null
+            if (!state.isStarted) state.cells[row][col].given = null
             state.cells[row][col].solutionMark = null
             state.cells[row][col].pencilMarks = {
                 center: [],
@@ -66,10 +66,14 @@ export const boardSlice  = createSlice({
         setEditMode: (state, { payload }) => {
             state.editMode = payload;
         },
+        setStarted: (state, { payload }) => {
+            state.isStarted = payload;
+            state.editMode = EDIT_MODE.SOLUTION;
+        }
         
     }
 })
 
-export const { clearSelectedCell, setEditMode, setSelected, handleKeyPress } = boardSlice.actions;
+export const { clearSelectedCell, setEditMode, setSelected, setStarted, handleKeyPress } = boardSlice.actions;
 
 export default boardSlice.reducer;

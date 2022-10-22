@@ -21,7 +21,7 @@ export function renderWithProviders(
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
 }
 
-export function pressKey(el, key) {
+export function pressKey(key, el = document) {
   const ctrlKey = key === 'Control'
   const shiftKey = key === 'Shift'
   fireEvent.keyDown(el, { key, ctrlKey, shiftKey });

@@ -8,7 +8,7 @@ describe('Givens', () => {
     it('On pressing 1 it should set it as a given', async () => {
         let cell = screen.getByTestId('cell-0-0');
         fireEvent.click(cell)
-        pressKey(cell, '1')
+        pressKey('1', cell)
         cell = screen.getByTestId('cell-0-0');
         expect(cell.textContent).toEqual('1');      
     })
@@ -16,10 +16,10 @@ describe('Givens', () => {
     it('One pressing 1 again it should remove it as a given', async () => {
         let cell = screen.getByTestId('cell-0-0');
         fireEvent.click(cell)
-        pressKey(document, '1')
+        pressKey('1')
         cell = screen.getByTestId('cell-0-0');
         expect(cell.textContent).toEqual('1');    
-        pressKey(cell, '1')
+        pressKey('1', cell)
         cell = screen.getByTestId('cell-0-0');
         expect(cell.textContent).toEqual('');
     })
@@ -27,7 +27,7 @@ describe('Givens', () => {
     it('should not set non numbers', async () => {
         let cell = screen.getByTestId('cell-0-0');     
         fireEvent.click(cell)
-        pressKey(document, 'a')
+        pressKey('a')
         cell = screen.getByTestId('cell-0-0');
         expect(cell.textContent).toEqual('');
     });
@@ -36,8 +36,8 @@ describe('Givens', () => {
         it(`on pressing ${key} should delete the set given`, () => {
             let cell = screen.getByTestId('cell-0-0');
             fireEvent.click(cell)
-            pressKey(document, '1')
-            pressKey(document, key)
+            pressKey('1')
+            pressKey(key)
             cell = screen.getByTestId('cell-0-0');
             expect(cell.textContent).toEqual('');
         })
@@ -45,10 +45,10 @@ describe('Givens', () => {
         it(`on pressing ${key} when a different cell is selected, it should not delete the given in the original cell`, () => {
             let cell = screen.getByTestId('cell-0-0');
             fireEvent.click(cell)
-            pressKey(document, '1')
+            pressKey('1')
             cell = screen.getByTestId('cell-1-1');
             fireEvent.click(cell)
-            pressKey(document, key)
+            pressKey(key)
             cell = screen.getByTestId('cell-0-0');
             expect(cell.textContent).toEqual('1');
         })

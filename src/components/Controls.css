@@ -3,5 +3,13 @@
 }
 
 .mode > * {
-    margin-right: 10px;
+    margin-right: 8px;
+}
+
+.form-check {
+     padding-left: 0;
+}
+
+.button-controls {
+    margin-top: 20px;
 }

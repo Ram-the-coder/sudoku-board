@@ -33,9 +33,9 @@ export default function KeyboardShortcuts() {
     }
 
     function cycleMode({ reverse } = {}) {
-      const { editMode } = board;
+      const { editMode, isStarted } = board;
       const modeOrder = [
-        EDIT_MODE.GIVEN,
+        ...(isStarted ? [] : [EDIT_MODE.GIVEN]),
         EDIT_MODE.SOLUTION,
         EDIT_MODE.PENCIL_MARK_CORNER,
         EDIT_MODE.PENCIL_MARK_CENTER,

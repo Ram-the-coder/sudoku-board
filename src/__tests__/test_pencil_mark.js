@@ -23,7 +23,7 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
         const numbers = ['1', '2', '3']
-        numbers.forEach(n => pressKey(document, n));
+        numbers.forEach(n => pressKey(n));
         cell = screen.getByTestId('cell-0-0')
         expect(cell.dataset.isPencilMark).toEqual("true")
         expect(cell.textContent).toEqual('123')
@@ -36,18 +36,18 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
     it('should remove pencil marks when entered again', () => {
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
-        pressKey(document, '1');
-        pressKey(document, '2')
+        pressKey('1');
+        pressKey('2')
 
-        pressKey(document, '2')
+        pressKey('2')
         cell = screen.getByTestId('cell-0-0')
         expect(cell.textContent).toEqual('1')
 
-        pressKey(document, '1')
+        pressKey('1')
         cell = screen.getByTestId('cell-0-0')
         expect(cell.textContent).toEqual('')
 
-        pressKey(document, '1')
+        pressKey('1')
         cell = screen.getByTestId('cell-0-0')
         expect(cell.textContent).toEqual('1')
     });
@@ -55,9 +55,9 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
     ['Backspace', 'Delete'].forEach(key => it(`should remove pencil marks on pressing ${key}`, () => {
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
-        pressKey(document, '1');
-        pressKey(document, '2')
-        pressKey(document, key)
+        pressKey('1');
+        pressKey('2')
+        pressKey(key)
         cell = screen.getByTestId('cell-0-0')
         expect(cell.textContent).toEqual('')
     }))
@@ -72,10 +72,10 @@ describe('Corner pencil mark', () => {
     it('will not take more than 8 elements', () => {
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
-        ['1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(n => pressKey(document, n));
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(n => pressKey(n));
         cell = screen.getByTestId('cell-0-0')
         expect(cell.textContent).toEqual('12345678');
-        pressKey(document, '8');
+        pressKey('8');
         expect(cell.textContent).toEqual('1234567');
     })
 })
