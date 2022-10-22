@@ -63,3 +63,19 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
         expect(cell.textContent).toEqual('')
     }))
 }));
+
+describe('Corner pencil mark', () => {
+    beforeEach(() => renderWithProviders(<App />))
+
+    it('will not take more than 8 elements', () => {
+        const modeSelector = screen.getByTestId('mode-selector');
+        fireEvent.change(modeSelector, { target: { value: EDIT_MODE.PENCIL_MARK_CORNER }});
+        let cell = screen.getByTestId('cell-0-0')
+        fireEvent.click(cell);
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(n => pressKey(document, n));
+        cell = screen.getByTestId('cell-0-0')
+        expect(cell.textContent).toEqual('12345678');
+        pressKey(document, '8');
+        expect(cell.textContent).toEqual('1234567');
+    })
+})

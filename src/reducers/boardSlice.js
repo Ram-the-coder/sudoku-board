@@ -63,7 +63,7 @@ export const boardSlice  = createSlice({
                 const currentValue = state.cells[row][col].pencilMarks.corners;
                 state.cells[row][col].pencilMarks.corners = currentValue.indexOf(keyPressed) !== -1 
                     ? currentValue.filter(pm => pm !== keyPressed) 
-                    : [...currentValue, keyPressed].sort()
+                    : [...currentValue, keyPressed].slice(0, 8).sort()
             }
         },
         setEditMode: (state, { payload }) => {
