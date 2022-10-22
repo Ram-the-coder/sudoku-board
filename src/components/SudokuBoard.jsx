@@ -1,7 +1,8 @@
-import React, { Children } from "react";
+import React from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { handleKeyPress, setSelected } from "../reducers/boardSlice";
+import { setSelected } from "../reducers/boardSlice";
 import './board.css'
+import PencilMarks from "./PencilMarks";
 
 function Given(props) {
     const { cell: { given }, className='', ...rest} = props;
@@ -10,16 +11,7 @@ function Given(props) {
 
 function SolutionMark(props) {
     const { cell: { solutionMark }, className='', ...rest} = props;
-    return <div {...rest} className={`solution-mark ${className}`} data-is-solution-mark={true}>{solutionMark}</div>
-}
-
-function PencilMarks(props) {
-    const { cell: { pencilMarks }, className='', ...rest} = props;
-    return (
-        <div {...rest} className={`pencil-marked ${className}`} data-is-pencil-mark={true}>
-            {pencilMarks.map(pm => <span key={pm} className="pencil-mark-item">{pm}</span>)}
-        </div>
-    )
+    return <div {...rest} className={`solution-mark ${className}`} data-is-solution-mark>{solutionMark}</div>
 }
 
 function Cell({row, col}) {
@@ -44,7 +36,7 @@ function Cell({row, col}) {
         <SolutionMark {...props} />
     )
 
-    if(pencilMarks.length > 0) return (
+    if(pencilMarks.center.length > 0 || pencilMarks.corners.length > 0) return (
         <PencilMarks {...props} />
     )
     return <div {...props}>{''}</div>

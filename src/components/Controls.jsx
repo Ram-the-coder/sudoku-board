@@ -16,7 +16,8 @@ export default function Controls() {
             value={editMode} 
             onChange={handleEditModeChange}>
             <option value={EDIT_MODE.SOLUTION}>Solution</option>
-            <option value={EDIT_MODE.PENCIL_MARK}>Pencil Mark</option>
+            <option value={EDIT_MODE.PENCIL_MARK_CORNER}>Pencil Mark Corner</option>
+            <option value={EDIT_MODE.PENCIL_MARK_CENTER}>Pencil Mark Center</option>
             <option value={EDIT_MODE.GIVEN}>Given</option>
         </select>
     )
