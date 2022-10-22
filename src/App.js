@@ -3,10 +3,10 @@ import SudokuBoard from "./components/SudokuBoard";
 import { useDispatch, useSelector } from 'react-redux'
 import { clearSelectedCell, handleKeyPress, setSelected } from "./reducers/boardSlice";
 import Controls from "./components/Controls";
+import './App.css';
 
 function App() {
   const board = useSelector(state => state.board)
-  const editMode = useSelector(state => state.editMode)
   const dispatch = useDispatch();
 
   useEffect(() => {

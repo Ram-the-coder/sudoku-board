@@ -1,0 +1,7 @@
+.mode-input > * {
+    cursor: pointer !important;
+}
+
+.mode > * {
+    margin-right: 10px;
+}

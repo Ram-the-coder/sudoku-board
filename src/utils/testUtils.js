@@ -1,7 +1,8 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { setupStore } from '../store'
+import { act, Simulate } from 'react-dom/test-utils'
 
 export function renderWithProviders(
   ui,
@@ -23,4 +24,9 @@ export function renderWithProviders(
 export function pressKey(el, key) {
   fireEvent.keyDown(el, { key });
   fireEvent.keyUp(el, { key });
+}
+
+export function selectMode(modeDisplayName, modeType) {
+  const mode = screen.getByLabelText(modeDisplayName, { selector: 'input' });
+  act(() => Simulate.change(mode, { checked: true, target: { name: modeType }}))
 }

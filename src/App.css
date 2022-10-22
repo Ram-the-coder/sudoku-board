@@ -1,0 +1,13 @@
+.App {
+    display: flex;
+    margin: 50px auto;
+    width: fit-content;
+}
+
+.App > * {
+    margin: 0 10px;
+}
+
+.row {
+    margin: 0;
+}

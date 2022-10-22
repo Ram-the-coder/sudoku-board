@@ -1,14 +1,13 @@
 import {fireEvent, screen } from '@testing-library/react'
 import App from '../App';
 import { EDIT_MODE } from '../reducers/boardSlice';
-import { pressKey, renderWithProviders } from '../utils/testUtils';
+import { pressKey, renderWithProviders, selectMode } from '../utils/testUtils';
 
 describe('Solution mode', () => {
     beforeEach(() => renderWithProviders(<App />))
 
     it('should display a solution mark', () => {
-        const modeSelector = screen.getByTestId('mode-selector');
-        fireEvent.change(modeSelector, { target: { value: EDIT_MODE.SOLUTION }});
+        selectMode('Solution', EDIT_MODE.SOLUTION)
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
         pressKey(document, '1');

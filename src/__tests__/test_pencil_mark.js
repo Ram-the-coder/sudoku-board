@@ -1,22 +1,25 @@
 import {fireEvent, screen, within } from '@testing-library/react'
 import App from '../App';
 import { EDIT_MODE } from '../reducers/boardSlice';
-import { pressKey, renderWithProviders } from '../utils/testUtils';
+import { pressKey, renderWithProviders, selectMode } from '../utils/testUtils';
 
 const pencilModes = [{
+    modeText: 'Center Pencil Mark',
     mode: EDIT_MODE.PENCIL_MARK_CENTER,
     dataElement: 'isPencilMarkCenter'
 }, {
+    modeText: 'Corner Pencil Mark',
     mode: EDIT_MODE.PENCIL_MARK_CORNER,
     dataElement: 'isPencilMarkCorner'
 }]
 
 pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, () => {
-    beforeEach(() => renderWithProviders(<App />))
+    beforeEach(() => {
+        renderWithProviders(<App />);
+        selectMode(modeType.modeText, modeType.mode);
+    })
 
     it('should display pencil marks in sorted order', () => {
-        const modeSelector = screen.getByTestId('mode-selector');
-        fireEvent.change(modeSelector, { target: { value: modeType.mode }});
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
         const numbers = ['1', '2', '3']
@@ -31,8 +34,6 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
     })
 
     it('should remove pencil marks when entered again', () => {
-        const modeSelector = screen.getByTestId('mode-selector');
-        fireEvent.change(modeSelector, { target: { value: modeType.mode }});
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
         pressKey(document, '1');
@@ -52,8 +53,6 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
     });
 
     ['Backspace', 'Delete'].forEach(key => it(`should remove pencil marks on pressing ${key}`, () => {
-        const modeSelector = screen.getByTestId('mode-selector');
-        fireEvent.change(modeSelector, { target: { value: modeType.mode }});
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
         pressKey(document, '1');
@@ -65,11 +64,12 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
 }));
 
 describe('Corner pencil mark', () => {
-    beforeEach(() => renderWithProviders(<App />))
+    beforeEach(() => {
+        renderWithProviders(<App />);
+        selectMode('Corner Pencil Mark', EDIT_MODE.PENCIL_MARK_CORNER);
+    })
 
     it('will not take more than 8 elements', () => {
-        const modeSelector = screen.getByTestId('mode-selector');
-        fireEvent.change(modeSelector, { target: { value: EDIT_MODE.PENCIL_MARK_CORNER }});
         let cell = screen.getByTestId('cell-0-0')
         fireEvent.click(cell);
         ['1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(n => pressKey(document, n));
