@@ -22,8 +22,10 @@ export function renderWithProviders(
 }
 
 export function pressKey(el, key) {
-  fireEvent.keyDown(el, { key });
-  fireEvent.keyUp(el, { key });
+  const ctrlKey = key === 'Control'
+  const shiftKey = key === 'Shift'
+  fireEvent.keyDown(el, { key, ctrlKey, shiftKey });
+  fireEvent.keyUp(el, { key, ctrlKey, shiftKey });
 }
 
 export function selectMode(modeDisplayName, modeType) {

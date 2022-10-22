@@ -14,4 +14,24 @@ describe('Solution mode', () => {
         cell = screen.getByTestId('cell-0-0')
         expect(cell.dataset.isSolutionMark).toEqual("true")
     })
+
+    it('should be able to cycle to Solution Mode from Given mode', () => {
+        pressKey(document, 'Control');
+        let cell = screen.getByTestId('cell-0-0')
+        fireEvent.click(cell);
+        pressKey(document, '1');
+        cell = screen.getByTestId('cell-0-0')
+        expect(cell.dataset.isSolutionMark).toEqual("true")
+    })
+
+    it('should be able to cycle back to Solution Mode from Corner Pencil Mark mode', () => {
+        pressKey(document, 'Control');
+        pressKey(document, 'Control');
+        pressKey(document, 'Shift');
+        let cell = screen.getByTestId('cell-0-0')
+        fireEvent.click(cell);
+        pressKey(document, '1');
+        cell = screen.getByTestId('cell-0-0')
+        expect(cell.dataset.isSolutionMark).toEqual("true")
+    })
 })
