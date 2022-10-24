@@ -13,3 +13,13 @@
 .button-controls {
     margin-top: 20px;
 }
+
+.validity {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.validity .error {
+    color: red;
+    font-weight: bold;
+}

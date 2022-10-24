@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EDIT_MODE, resetState, setEditMode, setStarted } from "../reducers/boardSlice";
 import "./Controls.css";
+import ValidityChecker from "./ValidityChecker";
 
 export default function Controls() {
   const editMode = useSelector((state) => state.board.editMode);
@@ -63,6 +64,7 @@ export default function Controls() {
           </button>
         </div>
       </div>
+      <ValidityChecker />
     </div>
   );
 }
