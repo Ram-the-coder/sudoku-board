@@ -1,17 +1,17 @@
 import { useSelector } from "react-redux";
 
 const getCellValues = cells => cells.map(cell => cell.given || cell.solutionMark).filter(v => v);
-const doesTheArrayHaveDuplicates = arr => (new Set(arr)).size === arr.length;
-const doTheCellsHaveDuplicates = cells => doesTheArrayHaveDuplicates(getCellValues(cells));
+const doesTheArrayHaveAllUniqueValues = arr => (new Set(arr)).size === arr.length;
+const areTheCellsUnique = cells => doesTheArrayHaveAllUniqueValues(getCellValues(cells));
 
 function isRowValid(cells, row) {
-    return doTheCellsHaveDuplicates(cells[row]);
+    return areTheCellsUnique(cells[row]);
 }
 
 function isColumnValid(cells, col) {
     const cellsInCol = []
     for(let i=0; i<9; i++) cellsInCol.push(cells[i][col]);
-    return doTheCellsHaveDuplicates(cellsInCol);
+    return areTheCellsUnique(cellsInCol);
 }
 
 function isBlockValid(cells, blockNum) {
@@ -23,7 +23,7 @@ function isBlockValid(cells, blockNum) {
             cellsInBlock.push(cells[i][j])
         }
     }
-    return doTheCellsHaveDuplicates(cellsInBlock);
+    return areTheCellsUnique(cellsInBlock);
 }
 
 function isSudokuValid(cells) {
