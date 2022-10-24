@@ -28,8 +28,8 @@ export function pressKey(key, el = document) {
   fireEvent.keyUp(el, { key, ctrlKey, shiftKey });
 }
 
-export function selectMode(modeDisplayName, modeType) {
-  const mode = screen.getByLabelText(modeDisplayName, { selector: 'input' });
+export function selectMode(modeType) {
+  const mode = screen.getByLabelText(modeType, { selector: 'input' });
   act(() => Simulate.change(mode, { checked: true, target: { name: modeType }}))
 }
 

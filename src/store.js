@@ -11,3 +11,11 @@ export function setupStore(preloadedState={}) {
     preloadedState
   })
 }
+
+export function getStateFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('state') || "{}");
+}
+
+export function saveStateToLocalStorage(state) {
+  localStorage.setItem('state', JSON.stringify(state));
+}

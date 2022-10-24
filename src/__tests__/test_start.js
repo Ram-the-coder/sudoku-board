@@ -1,7 +1,8 @@
 import { fireEvent, screen } from "@testing-library/react";
 import App from "../App";
-import boardPage from "../utils/board.page";
-import { firstCellCoords, pressKey, renderWithProviders } from "../utils/testUtils";
+import { assertCellHasGiven } from "../testUtils/assertions";
+import boardPage from "../testUtils/board.page";
+import { firstCellCoords, pressKey, renderWithProviders } from "../testUtils/testUtils";
 
 describe("Start", () => {
   describe("Before game start", () => {
@@ -16,9 +17,7 @@ describe("Start", () => {
     const setSomeGivens = () => {
       boardPage.selectCell(firstCellCoords);
       pressKey("1");
-      let cellWithGiven = boardPage.getCell(firstCellCoords);
-      expect(cellWithGiven).toHaveTextContent("1");
-      expect(cellWithGiven.dataset.isGiven).toEqual("true");
+      assertCellHasGiven(firstCellCoords, '1')
     };
     beforeEach(() => {
       renderWithProviders(<App />);
@@ -61,10 +60,7 @@ describe("Start", () => {
     it("should not be able to erase givens after start", () => {
       boardPage.selectCell(firstCellCoords);
       pressKey("Backspace");
-
-      const cellWithGiven = boardPage.getCell(firstCellCoords);
-      expect(cellWithGiven).toHaveTextContent("1");
-      expect(cellWithGiven.dataset.isGiven).toEqual("true");
+      assertCellHasGiven(firstCellCoords, '1')
     });
   });
 });

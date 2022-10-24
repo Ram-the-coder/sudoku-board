@@ -1,6 +1,7 @@
 import App from "../App";
-import boardPage from "../utils/board.page";
-import { coordsString, firstCellCoords, pressKey, renderWithProviders } from "../utils/testUtils";
+import boardPage from "../testUtils/board.page";
+import { coordsString, firstCellCoords, pressKey, renderWithProviders } from "../testUtils/testUtils";
+import { assertCellIsSelected } from "../testUtils/assertions";
 
 describe("selection", () => {
   describe("basic selection", () => {
@@ -8,8 +9,7 @@ describe("selection", () => {
 
     it("should select the cell on click", () => {
       boardPage.selectCell(firstCellCoords);
-      const cell = boardPage.getCell(firstCellCoords);
-      expect(cell.dataset.isSelected).toEqual("true");
+      assertCellIsSelected(firstCellCoords);
     });
   });
 
@@ -19,8 +19,7 @@ describe("selection", () => {
       it(`test moves selection from ${coordsString(start)} to ${coordsString(expectedEnd)} on press of ${key}`, () => {
         boardPage.selectCell(start)
         pressKey(key);
-        const cell = boardPage.getCell(expectedEnd);
-        expect(cell.dataset.isSelected).toEqual("true");
+        assertCellIsSelected(expectedEnd);
       });
     };
 

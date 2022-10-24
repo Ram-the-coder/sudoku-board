@@ -1,36 +1,29 @@
 import { within } from '@testing-library/react'
 import App from '../App';
 import { EDIT_MODE } from '../reducers/boardSlice';
-import boardPage from '../utils/board.page';
-import { firstCellCoords, pressKey, renderWithProviders, selectMode } from '../utils/testUtils';
+import { assertCellHasCenterPencilMarks, assertCellHasCornerPencilMarks, assertCellIsEmpty } from '../testUtils/assertions';
+import boardPage from '../testUtils/board.page';
+import { firstCellCoords, pressKey, renderWithProviders, selectMode } from '../testUtils/testUtils';
 
 const pencilModes = [{
-    modeText: 'Center Pencil Mark',
     mode: EDIT_MODE.PENCIL_MARK_CENTER,
-    dataElement: 'isPencilMarkCenter'
+    assertFunction: assertCellHasCenterPencilMarks
 }, {
-    modeText: 'Corner Pencil Mark',
     mode: EDIT_MODE.PENCIL_MARK_CORNER,
-    dataElement: 'isPencilMarkCorner'
+    assertFunction: assertCellHasCornerPencilMarks
 }]
 
-pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, () => {
+pencilModes.forEach(({ mode, assertFunction }) => describe(`Pencil Mark ${mode} mode`, () => {
     beforeEach(() => {
         renderWithProviders(<App />);
-        selectMode(modeType.modeText, modeType.mode);
+        selectMode(mode);
     })
 
     it('should display pencil marks in sorted order', () => {
         boardPage.selectCell(firstCellCoords);
         const numbers = ['1', '3', '2'];
         numbers.forEach(n => pressKey(n));
-        const cell = boardPage.getCell(firstCellCoords);
-        expect(cell.dataset.isPencilMark).toEqual("true")
-        expect(cell).toHaveTextContent('123')
-        numbers.forEach(n => {
-            expect(within(cell).getByText(n)
-                .dataset[modeType.dataElement]).toEqual("true")
-        })
+        assertFunction(firstCellCoords, '123');
     })
 
     it('should remove pencil marks when entered again', () => {
@@ -39,13 +32,13 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
         pressKey('2')
 
         pressKey('2')
-        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('1')
+        assertFunction(firstCellCoords, '1')
 
         pressKey('1')
-        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('')
+        assertCellIsEmpty(firstCellCoords)
 
         pressKey('1')
-        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('1')
+        assertFunction(firstCellCoords, '1')
     });
 
     ['Backspace', 'Delete'].forEach(key => it(`should remove pencil marks on pressing ${key}`, () => {
@@ -53,21 +46,21 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
         pressKey('1');
         pressKey('2')
         pressKey(key)
-        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('')
+        assertCellIsEmpty(firstCellCoords);
     }))
 }));
 
 describe('Corner pencil mark', () => {
     beforeEach(() => {
         renderWithProviders(<App />);
-        selectMode('Corner Pencil Mark', EDIT_MODE.PENCIL_MARK_CORNER);
+        selectMode(EDIT_MODE.PENCIL_MARK_CORNER);
     })
 
     it('will not take more than 8 elements', () => {
         boardPage.selectCell(firstCellCoords);
         ['1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(n => pressKey(n));
-        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('12345678')
+        assertCellHasCornerPencilMarks(firstCellCoords, '12345678');
         pressKey('8');
-        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('1234567')
+        assertCellHasCornerPencilMarks(firstCellCoords, '1234567');
     })
 })

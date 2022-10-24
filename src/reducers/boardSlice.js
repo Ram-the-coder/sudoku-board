@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+export const EDIT_MODE = {
+    GIVEN: 'Given',
+    SOLUTION: 'Solution',
+    PENCIL_MARK_CENTER: 'Center Pencil Mark',
+    PENCIL_MARK_CORNER: 'Corner Pencil Mark',
+}
+
 const intialCells = Array(9).fill(0).map(i => Array(9).fill({
     given: null,
     solutionMark: null,
@@ -9,21 +16,16 @@ const intialCells = Array(9).fill(0).map(i => Array(9).fill({
     },
 }))
 
-export const EDIT_MODE = {
-    GIVEN: 'given',
-    SOLUTION: 'solution',
-    PENCIL_MARK_CENTER: 'pencilMarkCenter',
-    PENCIL_MARK_CORNER: 'pencilMarkCorner',
-}
+const initialState = {
+    cells: intialCells,
+    selected: null,
+    editMode: EDIT_MODE.GIVEN,
+    isStarted: false,
+};
 
 export const boardSlice  = createSlice({
     name: 'board',
-    initialState: {
-        cells: intialCells,
-        selected: null,
-        editMode: EDIT_MODE.GIVEN,
-        isStarted: false,
-    },
+    initialState,
     reducers: {
         setSelected: (state, { payload }) => {
             const { row, col } = payload;
@@ -69,11 +71,11 @@ export const boardSlice  = createSlice({
         setStarted: (state, { payload }) => {
             state.isStarted = payload;
             state.editMode = EDIT_MODE.SOLUTION;
-        }
-        
+        },
+        resetState: () => initialState
     }
 })
 
-export const { clearSelectedCell, setEditMode, setSelected, setStarted, handleKeyPress } = boardSlice.actions;
+export const { clearSelectedCell, resetState, setEditMode, setSelected, setStarted, handleKeyPress } = boardSlice.actions;
 
 export default boardSlice.reducer;
