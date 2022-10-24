@@ -1,5 +1,5 @@
-import { screen } from '@testing-library/react'
 import App from '../App';
+import boardPage from '../utils/board.page';
 import { renderWithProviders } from '../utils/testUtils';
 
 describe('basic', () => {
@@ -7,8 +7,7 @@ describe('basic', () => {
         renderWithProviders(<App />);
         for(let i=0; i<9; i++) {
             for(let j=0; j<9; j++) {
-                const cell = screen.getByTestId(`cell-${i}-${j}`)
-                expect(cell.textContent).toEqual('');
+                expect(boardPage.getCell({ row: i, col: j })).toHaveTextContent('')
             }
         }
     })

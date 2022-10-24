@@ -1,7 +1,8 @@
-import {fireEvent, screen, within } from '@testing-library/react'
+import { within } from '@testing-library/react'
 import App from '../App';
 import { EDIT_MODE } from '../reducers/boardSlice';
-import { pressKey, renderWithProviders, selectMode } from '../utils/testUtils';
+import boardPage from '../utils/board.page';
+import { firstCellCoords, pressKey, renderWithProviders, selectMode } from '../utils/testUtils';
 
 const pencilModes = [{
     modeText: 'Center Pencil Mark',
@@ -20,13 +21,12 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
     })
 
     it('should display pencil marks in sorted order', () => {
-        let cell = screen.getByTestId('cell-0-0')
-        fireEvent.click(cell);
-        const numbers = ['1', '2', '3']
+        boardPage.selectCell(firstCellCoords);
+        const numbers = ['1', '3', '2'];
         numbers.forEach(n => pressKey(n));
-        cell = screen.getByTestId('cell-0-0')
+        const cell = boardPage.getCell(firstCellCoords);
         expect(cell.dataset.isPencilMark).toEqual("true")
-        expect(cell.textContent).toEqual('123')
+        expect(cell).toHaveTextContent('123')
         numbers.forEach(n => {
             expect(within(cell).getByText(n)
                 .dataset[modeType.dataElement]).toEqual("true")
@@ -34,32 +34,26 @@ pencilModes.forEach(modeType => describe(`Pencil Mark ${modeType.mode} mode`, ()
     })
 
     it('should remove pencil marks when entered again', () => {
-        let cell = screen.getByTestId('cell-0-0')
-        fireEvent.click(cell);
+        boardPage.selectCell(firstCellCoords);
         pressKey('1');
         pressKey('2')
 
         pressKey('2')
-        cell = screen.getByTestId('cell-0-0')
-        expect(cell.textContent).toEqual('1')
+        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('1')
 
         pressKey('1')
-        cell = screen.getByTestId('cell-0-0')
-        expect(cell.textContent).toEqual('')
+        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('')
 
         pressKey('1')
-        cell = screen.getByTestId('cell-0-0')
-        expect(cell.textContent).toEqual('1')
+        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('1')
     });
 
     ['Backspace', 'Delete'].forEach(key => it(`should remove pencil marks on pressing ${key}`, () => {
-        let cell = screen.getByTestId('cell-0-0')
-        fireEvent.click(cell);
+        boardPage.selectCell(firstCellCoords);
         pressKey('1');
         pressKey('2')
         pressKey(key)
-        cell = screen.getByTestId('cell-0-0')
-        expect(cell.textContent).toEqual('')
+        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('')
     }))
 }));
 
@@ -70,12 +64,10 @@ describe('Corner pencil mark', () => {
     })
 
     it('will not take more than 8 elements', () => {
-        let cell = screen.getByTestId('cell-0-0')
-        fireEvent.click(cell);
+        boardPage.selectCell(firstCellCoords);
         ['1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(n => pressKey(n));
-        cell = screen.getByTestId('cell-0-0')
-        expect(cell.textContent).toEqual('12345678');
+        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('12345678')
         pressKey('8');
-        expect(cell.textContent).toEqual('1234567');
+        expect(boardPage.getCell(firstCellCoords)).toHaveTextContent('1234567')
     })
 })

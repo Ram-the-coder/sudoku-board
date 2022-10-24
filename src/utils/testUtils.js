@@ -32,3 +32,9 @@ export function selectMode(modeDisplayName, modeType) {
   const mode = screen.getByLabelText(modeDisplayName, { selector: 'input' });
   act(() => Simulate.change(mode, { checked: true, target: { name: modeType }}))
 }
+
+export const firstCellCoords = { row: 0, col: 0 }
+
+export function coordsString({ row, col }) {
+  return `cell-${row}-${col}`;
+}
